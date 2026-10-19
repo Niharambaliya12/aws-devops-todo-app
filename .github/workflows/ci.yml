@@ -1,0 +1,24 @@
+name: Todo App CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  docker-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download project code
+        uses: actions/checkout@v4
+
+      - name: Check application files
+        run: |
+          test -f compose.yaml
+          test -d frontend
+          test -d backend
+
+      - name: Build application containers
+        run: docker compose build
