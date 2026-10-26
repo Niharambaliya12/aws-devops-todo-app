@@ -1,0 +1,19 @@
+
+name: Deploy Todo App to AWS EC2
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: [self-hosted, Linux, X64]
+
+    steps:
+      - name: Update application on EC2
+        run: |
+          cd /home/ubuntu/aws-devops-todo-app
+          git pull --ff-only origin main
+          sudo docker compose up -d --build
+          sudo docker compose ps
