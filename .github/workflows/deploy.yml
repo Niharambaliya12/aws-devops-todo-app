@@ -2,12 +2,16 @@
 name: Deploy Todo App to AWS EC2
 
 on:
-  push:
+  workflow_run:
+    workflows: ["Todo App CI"]
+    types:
+      - completed
     branches:
       - main
 
 jobs:
   deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: [self-hosted, Linux, X64]
 
     steps:
